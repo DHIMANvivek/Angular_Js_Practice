@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="angular.min.js"></script>
+    <link rel="stylesheet" href="in.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+    <center>
+    <div class="container" ng-app="CalApp" ng-controller="calController">
+        <input type="text" class="text" ng-model="text" /><br><br>
+
+        <button type="button" class="btn" ng-click="setOpr('/')">÷</button>
+        <button type="button" class="btn" ng-click="setOpr('*')">x</button>
+        <button type="button" class="btn" ng-click="setOpr('-')">-</button>
+        <button type="button" class="btn" ng-click="setOpr('+')">+</button>
+
+                <button type="button" class="btnNum" ng-click="setNum('1')">1</button>
+                <button type="button" class="btnNum" ng-click="setNum('2')">2</button>
+                <button type="button" class="btnNum" ng-click="setNum('3')">3</button><br>
+
+                <button type="button" class="btnNum" ng-click="setNum('4')">4</button>
+                <button type="button" class="btnNum" ng-click="setNum('5')">5</button>
+                <button type="button" class="btnNum" ng-click="setNum('6')">6</button><br>
+
+                <button type="button" class="btnNum" ng-click="setNum('7')">7</button>
+                <button type="button" class="btnNum" ng-click="setNum('8')">8</button>
+                <button type="button" class="btnNum" ng-click="setNum('9')">9</button><br>
+
+                <button type="button" class="btnNum" ng-click="setNum('0')">0</button>
+                <button type="button" class="btnNum" ng-click="setNum('.')">.</button>
+                <button type="button" class="btnBack" ng-click="backSpace()">⬅</button><br>
+                <button type="button" class="btnResult" ng-click="result()">=</button>
+                <button type="button" class="btnClr" ng-click="clr()">CLR</button>
+    </div></center>
+
+    <script>
+      var app = angular.module('CalApp', []);
+      app.controller('calController' , function($scope){
+        $scope.text = "";
+        $scope.num1 = 0;
+        $scope.oprCase="";
+        $scope.flag=false;
+        $scope.num2="";
+
+        $scope.setNum=function($temp){
+            if($temp =="." && $scope.text.indexOf(".") != -1){
+                    return;
+                }
+            if($scope.flag==true){
+                $scope.text="";
+                $scope.flag=false;
+            }
+            $scope.text=$scope.text+$temp;
+        }
+
+        $scope.setOpr= function($temp){
+            $scope.num1 = parseFloat($scope.text);
+            $scope.flag=true;
+            $scope.oprCase=$temp;
+        }
+
+        $scope.result=function() {
+            $scope.num2=parseFloat($scope.text);
+
+            switch($scope.oprCase){
+                case '+':$scope.text=$scope.num1+$scope.num2; break;
+                case '-':$scope.text=$scope.num1-$scope.num2; break;
+                case '*':$scope.text=$scope.num1*$scope.num2; break;
+                case '/':$scope.text=$scope.num1/$scope.num2; break;
+            }
+        }
+
+        $scope.backSpace=function(){
+            $scope.text=$scope.text.substr(0,$scope.text.length-1);
+        }
+
+        $scope.clr = function() {
+            $scope.text="";
+        }
+
+      })
+
+    </script>
+</body>
+</html>
